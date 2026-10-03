@@ -165,7 +165,7 @@ namespace watch {
         for (auto eid : preprocessOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -184,7 +184,7 @@ namespace watch {
         for (auto eid : spawnTimeOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -204,7 +204,7 @@ namespace watch {
         for (auto eid : despawnTimeOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -248,7 +248,7 @@ namespace watch {
         for (auto eid : terminateOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             startEntity(eid);
             ::currTime = directGet(1001, 0);
@@ -264,7 +264,7 @@ namespace watch {
         for (auto eid : initializeOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -280,7 +280,7 @@ namespace watch {
         for (auto eid : updateSequentialOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -295,7 +295,7 @@ namespace watch {
         for (auto eid : updateParallelOrder) {
             int aid = entityAid[eid];
             if (aid == -1) continue;
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);

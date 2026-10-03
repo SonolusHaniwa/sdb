@@ -323,7 +323,7 @@ void display(double currentTime) {
 
     for (int i = 0; i < renderDrawLists.size(); i++) {
         const DrawElement &e = renderDrawLists[i];
-        if (engineSpriteId.count(engineData["skin"]["sprites"][e.spriteId]["name"].asString()) == 0) continue;
+        if (textures.count(e.spriteId) == 0) continue;
         glm::mat4 mMat = glm::mat4({
 			{e.x1 / aspectRadio * width / origWidth, e.y1 * height / origHeight, z, 1 }, 
 			{e.x2 / aspectRadio * width / origWidth, e.y2 * height / origHeight, z, 1 }, 
@@ -342,8 +342,7 @@ void display(double currentTime) {
         glEnableVertexAttribArray(0);
 
         glActiveTexture(GL_TEXTURE0);
-        int engineId = engineSpriteId[engineData["skin"]["sprites"][e.spriteId]["name"].asString()];
-        glBindTexture(GL_TEXTURE_2D, textures[engineId].textureId);
+        glBindTexture(GL_TEXTURE_2D, textures[e.spriteId].textureId);
 
         // glEnable(GL_CULL_FACE);
         // glFrontFace(GL_CCW);

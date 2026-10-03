@@ -67,6 +67,10 @@ function<void(double, vector<double>)> customSpawn = [](double id, vector<double
 	cerr << ")\"!\e[0m" << endl;
 };
 
+// Stack Function
+int TemporaryMemoryId = 10000;
+int TemporaryMemorySize = 4096;
+
 // All Functions
 int cnt = 0;
 map<string, int> ExecuteTimes;

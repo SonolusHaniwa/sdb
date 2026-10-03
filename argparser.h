@@ -6,6 +6,7 @@ int width = 1920;
 int height = 1080;
 double aspectRadio = 1.0 * width / height;
 string engine_data_path;
+string engine_rom_path = "";
 string engine_configuration_path;
 string level_data_path;
 string skin_data_path;
@@ -15,6 +16,12 @@ string particle_texture_data;
 bool enable_command = true;
 bool enable_gui = true;
 bool use_x11 = false;
+
+bool fileExists(string path) {
+    ifstream fin(path, ios::binary);
+    fin.seekg(0, ios::end);
+    return fin.tellg() != -1;
+}
 
 void argparser(int argc, char** argv) {
     argparse::ArgumentParser program(argv[0]);
@@ -32,6 +39,7 @@ void argparser(int argc, char** argv) {
     program.add_argument("--height").help("specify the height of the window").metavar("1080").default_value(1080).scan<'i', int>();
     program.add_usage_newline();
     program.add_argument("--engine-data").metavar("EngineData").help("specify the engine data file.");
+    program.add_argument("--engine-rom").metavar("EngineRom").help("specify the engine rom file.");
     program.add_argument("--engine-configuration").metavar("engine.json").help("specify the engine configuration file.");
     program.add_usage_newline();
     program.add_argument("--level-data").metavar("LevelData").help("specify the level data file.");
@@ -52,6 +60,7 @@ void argparser(int argc, char** argv) {
         if (program.is_used("-c")) {
             Json::Value config = json_decode(readFile(program.get<string>("-c")));
             engine_data_path = config["engine"][sim_mode].asString();
+            engine_rom_path = config["engine"]["rom"].asString();
             engine_configuration_path = config["engine"]["config"].asString();
             level_data_path = config["level"]["data"].asString();
             skin_data_path = config["skin"]["data"].asString();
@@ -67,6 +76,7 @@ void argparser(int argc, char** argv) {
             if (sim_mode == "play") engine_data_path = base + "/EnginePlayData";
             else if (sim_mode == "watch") engine_data_path = base + "/EngineWatchData";
             else if (sim_mode == "tutorial") engine_data_path = base + "/EngineTutorialData";
+            if (fileExists(base + "/EngineRom")) engine_rom_path = base + "/EngineRom";
             engine_configuration_path = base + "/engine.json";
             level_data_path = base + "/LevelData";
             skin_data_path = base + "/SkinData";
@@ -78,6 +88,7 @@ void argparser(int argc, char** argv) {
         if (program.is_used("--width")) width = program.get<int>("--width");
         if (program.is_used("--height")) height = program.get<int>("--height");
         if (program.is_used("--engine-data")) engine_data_path = program.get<string>("--engine-data");
+        if (program.is_used("--engine-rom")) engine_rom_path = program.get<string>("--engine-rom");
         if (program.is_used("--engine-configuration")) engine_configuration_path = program.get<string>("--engine-configuration");
         if (program.is_used("--level-data")) level_data_path = program.get<string>("--level-data");
         if (program.is_used("--skin-data")) skin_data_path = program.get<string>("--skin-data");

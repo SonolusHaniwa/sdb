@@ -163,6 +163,25 @@ int main(int argc, char** argv) {
         particleEffects[engineId] = ParticleDataEffect(particleData["effects"][i]);
     }
 
+    if (engine_rom_path != "") {
+        bool isLittleEndian = true;
+        uint32_t i = 0x12345678;
+        uint8_t *p = (uint8_t*)&i;
+        if ((*p == 0x12) & (*(p + 1) == 0x34)) isLittleEndian = false;
+
+        string engineRomData = decompress_gzip(readFile(engine_rom_path));
+        for (int i = 0; i < engineRomData.size(); i += 4) {
+            float data;
+            // Little Endian -> Big Endian if OS is Big Endian
+            if (!isLittleEndian) {
+                swap(engineRomData[i], engineRomData[i + 3]);
+                swap(engineRomData[i + 1], engineRomData[i + 2]);
+            }
+            memcpy(&data, engineRomData.data() + i, sizeof(float));
+            romData.push_back(data);
+        }
+    }
+
     if (enable_command) signal(SIGINT, signalHandler);
     if (sim_mode == "play") play::main();
     else if (sim_mode == "tutorial") tutorial::main();

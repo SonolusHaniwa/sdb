@@ -166,7 +166,7 @@ namespace play {
         sort(preprocessOrder.begin(), preprocessOrder.end(), cmp);
         for (auto eid : preprocessOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -184,7 +184,7 @@ namespace play {
         sort(spawnOrderOrder.begin(), spawnOrderOrder.end(), cmp);
         for (auto eid : spawnOrderOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -241,7 +241,7 @@ namespace play {
         sort(initializeOrder.begin(), initializeOrder.end(), cmp);
         for (auto eid : initializeOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -256,7 +256,7 @@ namespace play {
         sort(updateSequentialOrder.begin(), updateSequentialOrder.end(), cmp);
         for (auto eid : updateSequentialOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -270,7 +270,7 @@ namespace play {
         sort(touchOrder.begin(), touchOrder.end(), cmp);
         for (auto eid : touchOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -284,7 +284,7 @@ namespace play {
         sort(updateParallelOrder.begin(), updateParallelOrder.end(), cmp);
         for (auto eid : updateParallelOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             ::currTime = directGet(1001, 0);
             startEntity(eid);
@@ -311,7 +311,7 @@ namespace play {
         setCallbackName("terminate");
         for (auto eid : terminateOrder) {
             int aid = entityAid[eid];
-            entityId = eid;
+            currEntityId = entityId = eid;
             archetypeName = engineData["archetypes"][aid]["name"].asString();
             startEntity(eid);
             ::currTime = directGet(1001, 0);
@@ -474,7 +474,7 @@ namespace play {
                 double unfrozenTime = 1.0 * clock2() / CLOCKS_PER_SEC;
                 stTime += unfrozenTime - frozenTime;
                 stopped = false;
-                needSkip = false; // 没搞清楚 Play 模式模式怎么 ski
+                needSkip = false; // 没搞清楚 Play 模式模式怎么 skip
             }
 
             if (needSkip) {

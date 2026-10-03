@@ -101,14 +101,14 @@ string decompress_gzip(string str) {
     zs.next_in = (Bytef*)x;
     zs.avail_in = str.size();
     int ret;
-    char outbuffer[100010];
+    char outbuffer[1024];
     string outstring;
     while (true) {
         zs.next_out = reinterpret_cast<Bytef*>(outbuffer);
         zs.avail_out = sizeof(outbuffer);
         ret = inflate(&zs, 0);
         if (outstring.size() < zs.total_out)
-            outstring.append(outbuffer, zs.total_out - outstring.size());
+            outstring += string(outbuffer, zs.total_out - outstring.size());
         if (ret != Z_OK) break;
     }
     inflateEnd(&zs);

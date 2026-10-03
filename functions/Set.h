@@ -3,8 +3,8 @@
 
 double Set(double id, double index, double value) {
 	// cout << id << " " << callbackNameId << " " << writeMap[int(id)][callbackNameId] << endl;
-	if (writeMap[int(id)][callbackNameId] == 0) return throwError(), 0;
-	if (overflowMemory(id, index)) return throwError(), 0;
+	if (writeMap[int(id)][callbackNameId] == 0) return throwError("Block %d is not writable for callback id %d", int(id), callbackNameId), 0;
+	if (overflowMemory(id, index)) return throwError("Index %d is overflow for block %d", int(index), int(id)), 0;
 	// if (int(id) >= 4000 && int(id) < 4100) {
 	// 	generalMemory[int(id) + 100][int(index) + memorySize[int(id)] * entityId[gettid()]] = value;
 	// 	return value;

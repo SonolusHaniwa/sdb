@@ -1,7 +1,3 @@
-void throwError() {
-
-}
-
 int gettid() {
     int res = pthread_self() % 10000;
     return res;
@@ -14,6 +10,30 @@ int entityCount = 0;
 int optionCount = 0;
 int bucketCount = 0;
 int currEntityId;
+string callbackName = "";
+int callbackNameId = 0;
+
+void throwError(string text) {
+    cerr << "\e[31m" << text << "\e[0m" << endl;
+    cerr << "    \e[31mError occurred in entity id = " << currEntityId << ", archtype = \"" << levelData["entities"][currEntityId]["archetype"].asString() << "\", callback = \"" << callbackName << "\".\e[0m" << endl;
+}
+
+void throwError(const char* fmt, ...) {
+    va_list args;
+
+    va_start(args, fmt);
+    char test;
+    int size = vsnprintf(&test, 0, fmt, args) + 1;
+    va_end(args);
+
+    va_start(args, fmt);
+    char buf[size];
+    memset(buf, 0, size * sizeof(char));
+    vsnprintf(buf, size, fmt, args);
+    va_end(args);
+
+    return throwError(string(buf, size));
+}
 
 void setEnv(int aCount, int eCount, int oCount, int bCount) {
     archetypeCount = aCount;
@@ -28,6 +48,14 @@ void setEnv(int aCount, int eCount, int oCount, int bCount) {
 #include "blocks/Watch.h"
 
 string mode = "";
+
+int EngineRomId = 3000;
+vector<float> romData;
+void initEngineRom() {
+    destroyMemory(EngineRomId);
+    setMemory(EngineRomId, romData.size());
+    for (int i = 0; i < romData.size(); i++) directSet(EngineRomId, i, romData[i]);
+}
 
 void setMode(string mode) {
     ::mode = mode;
@@ -45,10 +73,10 @@ void setMode(string mode) {
         setWriteMap(writeMapWatch);
         initWatchMemory();
     }
+
+    initEngineRom();
 }
 
-string callbackName = "";
-int callbackNameId = 0;
 void setCallbackName(string name) {
     callbackName = name;
     callbackNameId = callbackId.count(name) ? callbackId[name] : 99;
