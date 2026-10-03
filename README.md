@@ -104,7 +104,7 @@ config.json(Take phigros engine as an example):
         "play": "data/Phigros/EnginePlayData",
         "watch": "data/Phigros/EngineWatchData",
         "tutorial": "data/Phigros/EngineTutorialData",
-        "config": "data/Phigros/config.json" // Generated from config-app
+        "config": "data/Phigros/config.json"    // Generated from config-app
     },
     "level": {
         "data": "data/Phigros/LevelData"
@@ -118,6 +118,33 @@ config.json(Take phigros engine as an example):
         "texture": "data/Phigros/ParticleTexture"
     }
 }
+```
+
+key.json(The value of key should be the macro value in <https://www.glfw.org/docs/latest/group__keys.html>):
+
+```json
+[
+    {
+        "key": 65,  // GLFW_KEY_A
+        "x": -1,
+        "y": -0.8
+    },
+    {
+        "key": 83,  // GLFW_KEY_S
+        "x": -0.3,
+        "y": -0.8
+    },
+    {
+        "key": 75,  // GLFW_KEY_K
+        "x": 0.3,
+        "y": -0.8
+    },
+    {
+        "key": 76,  // GLFW_KEY_L
+        "x": 1,
+        "y": -0.8
+    }
+]
 ```
 
 Interactive command line:

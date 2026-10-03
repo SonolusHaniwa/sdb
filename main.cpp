@@ -103,6 +103,16 @@ vector<double> options;
 int main(int argc, char** argv) {
     argparser(argc, argv);
 
+    if (key_config_path != "") {
+        Json::Value key_config = json_decode(readFile(key_config_path));
+        for (int i = 0; i < key_config.size(); i++) {
+            keyPos[key_config[i]["key"].asInt()] = {
+                key_config[i]["x"].asDouble(),
+                key_config[i]["y"].asDouble()
+            };
+        }
+    }
+
     Json::Value engine_options = json_decode(readFile(engine_configuration_path));
     for (int i = 0; i < engine_options["order"].size(); i++) 
         options.push_back(engine_options["options"][engine_options["order"][i].asString()].asDouble());
