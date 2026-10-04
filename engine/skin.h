@@ -1,16 +1,16 @@
 class SpriteTransform {
     struct TransformSingle {
-        double x1, x2, x3, x4;
-        double y1, y2, y3, y4;
+        double x1 = 0, x2 = 0, x3 = 0, x4 = 0;
+        double y1 = 0, y2 = 0, y3 = 0, y4 = 0;
     };
-    TransformSingle x1{ .x1 = 1 };
-    TransformSingle x2{ .x2 = 1 };
-    TransformSingle x3{ .x3 = 1 };
-    TransformSingle x4{ .x4 = 1 };
-    TransformSingle y1{ .y1 = 1 };
-    TransformSingle y2{ .y2 = 1 };
-    TransformSingle y3{ .y3 = 1 };
-    TransformSingle y4{ .y4 = 1 };
+    TransformSingle x1;
+    TransformSingle x2;
+    TransformSingle x3;
+    TransformSingle x4;
+    TransformSingle y1;
+    TransformSingle y2;
+    TransformSingle y3;
+    TransformSingle y4;
 
     void setSingle(TransformSingle &t, const Json::Value &obj) {
         if (obj.isMember("x1")) t.x1 = obj["x1"].asDouble();
