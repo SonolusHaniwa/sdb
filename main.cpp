@@ -46,6 +46,7 @@ void signalHandler(int signal) {
 #include "include/gzip.h"
 #include "include/png.h"
 #include "include/utils.h"
+#include "engine/skin.h"
 #include "engine/particle.h"
 #include "engine/touch.h"
 #include "argparser.h"
@@ -71,6 +72,7 @@ Json::Value particleData;
 image particleTexture;
 
 map<int, glTexture> textures;
+map<int, SpriteTransform> skinTransforms;
 map<string, int> engineSpriteId;
 
 map<int, ParticleDataEffect> particleEffects;
@@ -140,6 +142,7 @@ int main(int argc, char** argv) {
             }
         }
         textures[engineId] = createTextureFromImage(sprite);
+        skinTransforms[engineId] = SpriteTransform(skinData["sprites"][i]["transform"]);
     }
 
     for (int i = 0; i < engineData["particle"]["effects"].size(); i++)

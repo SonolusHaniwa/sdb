@@ -231,12 +231,7 @@ void opengl_onmousepress(GLFWwindow* window, int button, int action, int mods) {
 	}
 }
 
-map<int, pair<double, double> > keyPos = {
-	{ GLFW_KEY_A, { -1, -0.8 } },
-	{ GLFW_KEY_S, { -0.3, -0.8 } },
-	{ GLFW_KEY_K, { 0.3, -0.8 } },
-	{ GLFW_KEY_L, { 1, -0.8 } },
-};
+map<int, pair<double, double> > keyPos = {};
 int keyTouchId[512] = { 0 };
 void opengl_onkeypress(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
@@ -322,8 +317,9 @@ void display(double currentTime) {
 	}
 
     for (int i = 0; i < renderDrawLists.size(); i++) {
-        const DrawElement &e = renderDrawLists[i];
+        DrawElement e = renderDrawLists[i];
         if (textures.count(e.spriteId) == 0) continue;
+		skinTransforms[e.spriteId].calc(e.x1, e.y1, e.x2, e.y2, e.x3, e.y3, e.x4, e.y4);
         glm::mat4 mMat = glm::mat4({
 			{e.x1 / aspectRadio * width / origWidth, e.y1 * height / origHeight, z, 1 }, 
 			{e.x2 / aspectRadio * width / origWidth, e.y2 * height / origHeight, z, 1 }, 
