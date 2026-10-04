@@ -1,8 +1,17 @@
 namespace tutorial {
     const int targetFPS = 120;
+
+    void clearOutdatedParticle(double currTime) {
+        for (auto it = activeEffects.begin(); it != activeEffects.end(); ) {
+            if (!it->second.loop && (currTime < it->second.stTime || currTime > it->second.stTime + it->second.duration)) 
+                it = activeEffects.erase(it);
+            else it++;
+        }
+    }
     
     void main() {
         RuntimeSkinTransformId = 1002;
+        RuntimeParticleTransformId = 1002;
         setEnv(0, 0, 0, 0);
         setMode("tutorial");
         initNodes(engineData["nodes"]);
@@ -10,6 +19,11 @@ namespace tutorial {
         directSet(1000, 0, 1);
         directSet(1000, 1, 1.0 * width / height);
         directSet(1000, 2, 0);
+        for (int i = 0; i < 16; i++) directSet(1002, i, 0);
+        directSet(1002, 0, 1);
+        directSet(1002, 5, 1);
+        directSet(1002, 10, 1);
+        directSet(1002, 15, 1);
         for (int i = 0; i < 16; i++) directSet(1003, i, 0);
         directSet(1003, 0, 1);
         directSet(1003, 5, 1);
@@ -34,6 +48,8 @@ namespace tutorial {
             time_t t1 = clock2();
             directSet(1001, 0, currTime - stTime);
             directSet(1001, 1, currTime - lastTime);
+            ::currTime = currTime - stTime;
+            clearOutdatedParticle(currTime - stTime);
 
             setCallbackName("update");
             RunCode(engineData["update"].asInt());

@@ -66,7 +66,7 @@ namespace play {
         // 重新分配内存
         setMemory(4100, 64 * entityCount);
         setMemory(4104, 1 * entityCount);
-        setMemory(4105, 4 * entityCount);
+        setMemory(4105, 5 * entityCount);
         for (int i = 0; i < 8; i++) destroyMemory(4000 + i);
 
         // 预填数据

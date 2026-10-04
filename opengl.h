@@ -327,7 +327,6 @@ void display(double currentTime) {
 			{e.x4 / aspectRadio * width / origWidth, e.y4 * height / origHeight, z, 1 }, 
         });
 		glm::vec4 color = glm::vec4({ 1.0, 1.0, 1.0, e.a });
-        // cout << engineData["skin"]["sprites"][e.spriteId]["name"].asString() << " " << textures[e.spriteId].width << " " << textures[e.spriteId].height << " " << mMat << endl;
         glUniformMatrix4fv(mLoc, 1, GL_FALSE, glm::value_ptr(mMat));
         glUniformMatrix4fv(vLoc, 1, GL_FALSE, glm::value_ptr(vMat));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(pMat));

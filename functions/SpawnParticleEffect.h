@@ -13,10 +13,10 @@ double SpawnParticleEffect(double id, SpawnParticleEffect_Group_x_y x_y0, SpawnP
 	if (particleEffects.count(int(id)) == 0) return 0;
 	ParticleDataEffect effect = particleEffects[int(id)];
 	effect.freshVariable();
-	effect.x1 =  x1, effect.y1 = y1;
-	effect.x2 =  x2, effect.y2 = y2;
-	effect.x3 =  x3, effect.y3 = y3;
-	effect.x4 =  x4, effect.y4 = y4;
+	effect.x1 = x1, effect.y1 = y1;
+	effect.x2 = x2, effect.y2 = y2;
+	effect.x3 = x3, effect.y3 = y3;
+	effect.x4 = x4, effect.y4 = y4;
 	effect.stTime = currTime;
 	effect.duration = duration;
 	effect.loop = isLooped;
