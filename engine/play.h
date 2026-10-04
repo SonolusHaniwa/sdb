@@ -432,6 +432,7 @@ namespace play {
             directSet(1001, 2, TimeToScaledTime(currTime - stTime));
             directSet(1001, 3, touches.size());
             directSet(1001, 4, needSkip);
+            solveNewSpawn();
             
             solveTouch();
             clearOutdatedParticle(currTime - stTime);
