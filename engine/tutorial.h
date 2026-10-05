@@ -35,7 +35,7 @@ namespace tutorial {
         setCallbackName("preprocess");
         RunCode(engineData["preprocess"].asInt());
 
-        double stTime = 1.0 * clock2() / CLOCKS_PER_SEC, lastTime = stTime;
+        stTime = 1.0 * clock2() / CLOCKS_PER_SEC; double lastTime = stTime;
         vector<double> totalTimes;
         while (true) {
             glClear(GL_DEPTH_BUFFER_BIT);
@@ -43,13 +43,13 @@ namespace tutorial {
             glClear(GL_COLOR_BUFFER_BIT);
             
             int tmp = cnt;
-            double currTime = 1.0 * clock2() / CLOCKS_PER_SEC;
+            double currTime = 1.0 * clock2() / CLOCKS_PER_SEC, tmpStTime = stTime;
             drawLists.clear();
             time_t t1 = clock2();
-            directSet(1001, 0, currTime - stTime);
+            directSet(1001, 0, currTime - tmpStTime);
             directSet(1001, 1, currTime - lastTime);
-            ::currTime = currTime - stTime;
-            clearOutdatedParticle(currTime - stTime);
+            ::currTime = currTime - tmpStTime;
+            clearOutdatedParticle(currTime - tmpStTime);
 
             setCallbackName("update");
             RunCode(engineData["update"].asInt());
@@ -62,16 +62,16 @@ namespace tutorial {
                 ) : a.z1 < b.z1;
             });
             renderDrawLists = drawLists;
-            display(currTime - stTime);
+            display(currTime - tmpStTime);
             glfwSwapBuffers(window);
             glfwPollEvents();
-            time_t t2 = clock2();
+            time_t t2 = clock2() - (stTime - tmpStTime) * CLOCKS_PER_SEC;
 
             totalTimes.push_back(1.0 * (t2 - t1) / CLOCKS_PER_SEC);
             double totalTime = 0;
             for (int i = totalTimes.size() - 1; i >= totalTimes.size() - targetFPS && i >= 0; i--) totalTime += totalTimes[i];
             usleep(max(0.0, 1.0 / targetFPS - 1.0 * (t2 - t1) / CLOCKS_PER_SEC) * 1000 * 1000);
-            cout << "time: " << fixed << setprecision(3) << currTime - stTime << "s | cost: " 
+            cout << "time: " << fixed << setprecision(3) << currTime - tmpStTime << "s | cost: " 
                 << 1.0 * (t2 - t1) / CLOCKS_PER_SEC * 1000 << "ms | " 
                 << (1.0 / (t2 - t1) * CLOCKS_PER_SEC) << "fps | avg: " 
                 << (1.0 / (totalTime / min(targetFPS, (int)totalTimes.size()))) << "fps | calc: "

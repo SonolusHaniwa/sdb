@@ -54,7 +54,7 @@ int particleCount = 0;
 // Debug Function
 int entityId;
 string archetypeName;
-double currTime;
+double stTime, currTime;
 // map<int, int> entityId;
 // map<int, string> archetypeName;
 // map<int, double> currTime;
@@ -97,7 +97,10 @@ void beforeRunCode(int nodeId) {
 		}
         if (callStacks.size() > 16) cout << "..." << endl;
     	currEntityId = entityId;
+        double frozenTime = 1.0 * clock2() / CLOCKS_PER_SEC;
         while (forceStop) commandLine();
+        double unfrozenTime = 1.0 * clock2() / CLOCKS_PER_SEC;
+        stTime += unfrozenTime - frozenTime;
 	}
 }
 
@@ -123,7 +126,10 @@ void beforeRunMainCode(int nodeId) {
 		}
         if (callStacks.size() > 16) cout << "..." << endl;
     	currEntityId = entityId;
+        double frozenTime = 1.0 * clock2() / CLOCKS_PER_SEC;
         while (forceStop) commandLine();
+        double unfrozenTime = 1.0 * clock2() / CLOCKS_PER_SEC;
+        stTime += unfrozenTime - frozenTime;
 	}
 }
 

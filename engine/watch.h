@@ -372,7 +372,8 @@ namespace watch {
         runSpawnTime();
         runDespawnTime();
 
-        double stTime = 1.0 * clock2() / CLOCKS_PER_SEC + 3, lastTime = stTime - 3;
+        stTime = 1.0 * clock2() / CLOCKS_PER_SEC + 3;
+        double lastTime = stTime - 3;
         int currFrame = -targetFPS * 3;
         vector<double> totalTimes;
         while (true) {
@@ -381,19 +382,19 @@ namespace watch {
             glClear(GL_COLOR_BUFFER_BIT);
             
             int tmp = cnt;
-            double currTime = 1.0 * clock2() / CLOCKS_PER_SEC;
+            double currTime = 1.0 * clock2() / CLOCKS_PER_SEC, tmpStTime = stTime;
             drawLists.clear();
             time_t t1 = clock2();
-            directSet(1001, 0, currTime - stTime);
+            directSet(1001, 0, currTime - tmpStTime);
             directSet(1001, 1, currTime - lastTime);
-            directSet(1001, 2, TimeToScaledTime(currTime - stTime));
+            directSet(1001, 2, TimeToScaledTime(currTime - tmpStTime));
             directSet(1001, 3, needSkip);
             solveNewSpawn();
 
             setCallbackName("updateSpawn");
             double customCurrentTime = RunCode(engineData["updateSpawn"].asInt());
 
-            clearOutdatedParticle(currTime - stTime);
+            clearOutdatedParticle(currTime - tmpStTime);
             initializeCycle(customCurrentTime);
             runTerminate();
             runInitialize();
@@ -408,10 +409,10 @@ namespace watch {
                 ) : a.z1 < b.z1;
             });
             renderDrawLists = drawLists;
-            display(currTime - stTime);
+            display(currTime - tmpStTime);
             glfwSwapBuffers(window);
             glfwPollEvents();
-            time_t t2 = clock2();
+            time_t t2 = clock2() - (stTime - tmpStTime) * CLOCKS_PER_SEC;
 
             totalTimes.push_back(1.0 * (t2 - t1) / CLOCKS_PER_SEC);
             double totalTime = 0;
@@ -419,7 +420,7 @@ namespace watch {
             usleep(max(0.0, 1.0 / targetFPS - 1.0 * (t2 - t1) / CLOCKS_PER_SEC) * 1000 * 1000);
             cout << "frame: " << currFrame << " | time: "
                 << fixed << setprecision(3)
-                << currTime - stTime << "s | spawn: "
+                << currTime - tmpStTime << "s | spawn: "
                 << customCurrentTime << "s | cost: " 
                 << 1.0 * (t2 - t1) / CLOCKS_PER_SEC * 1000 << "ms | " 
                 << (1.0 / (t2 - t1) * CLOCKS_PER_SEC) << "fps | avg: " 

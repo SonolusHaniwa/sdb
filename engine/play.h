@@ -421,7 +421,7 @@ namespace play {
         for (int i = 0; i < levelData["entities"].size(); i++) spawnQueue.push_back(i);
         sort(spawnQueue.begin(), spawnQueue.end(), [&](int a, int b){ return spawnOrder[a] == spawnOrder[b] ? a < b : spawnOrder[a] < spawnOrder[b]; });
 
-        double stTime = 1.0 * clock2() / CLOCKS_PER_SEC + 3, lastTime = stTime - 3;
+        stTime = 1.0 * clock2() / CLOCKS_PER_SEC + 3; double lastTime = stTime - 3;
         int currFrame = -targetFPS * 3;
         vector<double> totalTimes;
         while (true) {
@@ -430,21 +430,21 @@ namespace play {
             glClear(GL_COLOR_BUFFER_BIT);
 
             int tmp = cnt;
-            double currTime = 1.0 * clock2() / CLOCKS_PER_SEC;
+            double currTime = 1.0 * clock2() / CLOCKS_PER_SEC, tmpStTime = stTime;
             drawLists.clear();
             time_t t1 = clock2();
             solveGLEvent(currTime - stTime);
             freshTouch(currTime - stTime);
             
-            directSet(1001, 0, currTime - stTime);
+            directSet(1001, 0, currTime - tmpStTime);
             directSet(1001, 1, currTime - lastTime);
-            directSet(1001, 2, TimeToScaledTime(currTime - stTime));
+            directSet(1001, 2, TimeToScaledTime(currTime - tmpStTime));
             directSet(1001, 3, touches.size());
             directSet(1001, 4, needSkip);
             solveNewSpawn();
             
             solveTouch();
-            clearOutdatedParticle(currTime - stTime);
+            clearOutdatedParticle(currTime - tmpStTime);
             initializeCycle();
             runInitialize();
             runUpdateSequential();
@@ -462,10 +462,10 @@ namespace play {
                 ) : a.z1 < b.z1;
             });
             renderDrawLists = drawLists;
-            display(currTime - stTime);
+            display(currTime - tmpStTime);
             glfwSwapBuffers(window);
             glfwPollEvents();
-            time_t t2 = clock2();
+            time_t t2 = clock2() - (stTime - tmpStTime) * CLOCKS_PER_SEC;
 
             totalTimes.push_back(1.0 * (t2 - t1) / CLOCKS_PER_SEC);
             double totalTime = 0;
@@ -473,7 +473,7 @@ namespace play {
             usleep(max(0.0, 1.0 / targetFPS - 1.0 * (t2 - t1) / CLOCKS_PER_SEC) * 1000 * 1000);
             cout << "frame: " << currFrame << " | time: "
                 << fixed << setprecision(3)
-                << currTime - stTime << "s | cost: " 
+                << currTime - tmpStTime << "s | cost: " 
                 << 1.0 * (t2 - t1) / CLOCKS_PER_SEC * 1000 << "ms | " 
                 << (1.0 / (t2 - t1) * CLOCKS_PER_SEC) << "fps | avg: " 
                 << (1.0 / (totalTime / min(targetFPS, (int)totalTimes.size()))) << "fps | active: "
