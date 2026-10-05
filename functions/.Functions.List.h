@@ -468,10 +468,13 @@ double RunCode(int nodeId) {
 	if (hash == 271289553) { double res = SwitchIntegerWithDefault(node.values[0], vector<double>(node.values.begin() + 1, node.values.end() - 1), node.values.back()); afterRunCode(nodeId); return res; }
 	if (hash == 188807862) { double res = SwitchWithDefault(node.values[0], [](vector<double> v){ vector<SwitchWithDefault_Group_test_consequent> res; for (int i = 0; i < v.size(); i += 2) res.push_back({ v[i], v[i + 1] }); return res; }(vector<double>(node.values.begin() + 1, node.values.end() - 1)), node.values.back()); afterRunCode(nodeId); return res; }
 	if (hash == 777427314) { node.values.resize(2, 0); double res = While(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
+	node.currValueCount = 0;
 	for (int i = 0; i < node.param.size(); i++) {
 		node.values[i] = RunCode(node.param[i]);
+		node.currValueCount++;
 		if (breakCount) return 0;
 	}
+	beforeRunMainCode(nodeId);
 	if (hash == 353567771) { node.values.resize(1, 0); double res = Abs(node.values[0]); afterRunCode(nodeId); return res; }
 	if (hash == 353678418) { double res = Add(node.values); afterRunCode(nodeId); return res; }
 	if (hash == 130046266) { node.values.resize(2, 0); double res = AddLifeScheduled(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
@@ -651,6 +654,8 @@ double RunCode(int nodeId) {
 	if (hash == 488351831) { node.values.resize(1, 0); double res = Trunc(node.values[0]); afterRunCode(nodeId); return res; }
 	if (hash == 583672445) { node.values.resize(3, 0); double res = Unlerp(node.values[0], node.values[1], node.values[2]); afterRunCode(nodeId); return res; }
 	if (hash == 417111798) { node.values.resize(3, 0); double res = UnlerpClamped(node.values[0], node.values[1], node.values[2]); afterRunCode(nodeId); return res; }
+	assert(false);
+	return 0;
 }
 
 #endif

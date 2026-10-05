@@ -6,7 +6,9 @@ double StreamGetValue(double id, double key) {
 	auto it = streamDataKey[id].lower_bound(key);
 	if (it == streamDataKey[id].begin()) return streamDataValue[id][*it];
 	if (it == streamDataKey[id].end()) return streamDataValue[id][*--it];
-	return RemapClamped(*--it, *it, streamDataValue[id][*--it], streamDataValue[id][*it], key);
+	auto curr = it;
+	auto prev = --it;
+	return RemapClamped(*prev, *curr, streamDataValue[id][*prev], streamDataValue[id][*curr], key);
 }
 
 #endif

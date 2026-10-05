@@ -34,7 +34,7 @@ namespace play {
         newSpawnedMemory.push_back(newMemory);
         entityAid.push_back(aid);
         newSpawnList.push_back({ entityAid.size() - 1, memory });
-        // cout << "New Spawn: Entity id = " << id << ", archetype = \"Spawned: " << engineData["archetypes"][aid]["name"].asString() << "\"" << endl;
+        // cout << "New Spawn: Entity id = " << entityAid.size() - 1 << ", archetype = \"Spawned: " << engineData["archetypes"][aid]["name"].asString() << "\"" << endl;
     };
 
     void solveArchetypes() {

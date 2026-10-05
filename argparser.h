@@ -2,6 +2,7 @@
 
 string sim_mode;
 string key_config_path = "";
+string breakpoint_path = "";
 int width = 1920;
 int height = 1080;
 double aspectRadio = 1.0 * width / height;
@@ -34,6 +35,7 @@ void argparser(int argc, char** argv) {
     group.add_argument("-c", "--config").help("specify the configuration file.").metavar("config.json");
     group.add_argument("-i", "--input-directory").help("specify the working directory.").metavar("data");
     program.add_argument("-k", "--key-mapping").help("specify the key mapping file.").metavar("key.json");
+    program.add_argument("-b", "--breakpoints").help("specify the breakpoints file.").metavar("breakpoints.json");
     program.add_usage_newline();
     program.add_argument("--width").help("specify the width of the window").metavar("1920").default_value(1920).scan<'i', int>();
     program.add_argument("--height").help("specify the height of the window").metavar("1080").default_value(1080).scan<'i', int>();
@@ -85,6 +87,7 @@ void argparser(int argc, char** argv) {
             particle_texture_data = base + "/ParticleTexture";
         }
         if (program.is_used("-k")) key_config_path = program.get<string>("-k");
+        if (program.is_used("-b")) breakpoint_path = program.get<string>("-b");
         if (program.is_used("--width")) width = program.get<int>("--width");
         if (program.is_used("--height")) height = program.get<int>("--height");
         if (program.is_used("--engine-data")) engine_data_path = program.get<string>("--engine-data");

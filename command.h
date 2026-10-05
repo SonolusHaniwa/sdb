@@ -26,11 +26,11 @@ void commandLine() {
         if (e != "") c.push_back(e);
     }
     if (c.size() == 0) return;
-    if (c[0] == "c") {
+    if (c[0] == "c" || c[0] == "continue") {
         shouldStop = false;
         forceStop = false;
     } 
-    else if (c[0] == "q") {
+    else if (c[0] == "q" || c[0] == "quit" || c[0] == "exit") {
         targetActiveCount = 0;
         shouldStop = false; forceStop = false;
         exit(0);
@@ -44,7 +44,7 @@ void commandLine() {
         int offset = 0, size = memorySize[blockId];
         if (blockId >= 4000 && blockId < 4100) blockId += 100, size = memorySize[blockId] / entityCount, offset = currEntityId * size;
         for (int i = offset; i < offset + size; i += 8) {
-            for (int j = i; j < i + 8 && j < offset + size; j++) cout << "#" << j - offset << "\t" << generalMemory[blockId][j] << "\t";
+            for (int j = i; j < i + 8 && j < offset + size; j++) cout << "#" << j - offset << "\t" << scientific << setprecision(3) << generalMemory[blockId][j] << "\t";
             cout << endl;
         }
     }
@@ -123,68 +123,33 @@ void commandLine() {
         if (codeId >= engineData["nodes"].size()) cout << "" << endl;
         else cout << toString(codeId, 0, deep) << endl;
     }
-    // else if (c[0] == "draw") {
-    //     // draw ../../sonolus-server-cpp/phigros/dist/SkinData ../../sonolus-server-cpp/phigros/dist/SkinTexture test.png
-    //     if (c.size() < 4) {
-    //         cout << "Usage: draw  [path]" << endl;
-    //         return;
-    //     }
-    //     Json::Value skinData = json_decode(decompress_gzip(readFile(c[1])));
-    //     image skinTexture = readImage(c[2]);
-    //     mkdir(".tmp", 0777);
-    //     map<int, string> spriteName;
-    //     map<string, int> realSpriteId;
-    //     for (int i = 0; i < engineData["skin"]["sprites"].size(); i++)
-    //         spriteName[engineData["skin"]["sprites"][i]["id"].asInt()] = engineData["skin"]["sprites"][i]["name"].asString();
-    //     for (int i = 0; i < skinData["sprites"].size(); i++)
-    //         realSpriteId[skinData["sprites"][i]["name"].asString()] = i;
-    //     string savePath = c[3];
-    //     string command = "convert -size " + to_string(width * 3) + "x" + to_string(height * 3) + " ";
-    //     sort(drawLists.begin(), drawLists.end(), [](DrawElement a, DrawElement b){ return a.z < b.z; });
-    //     for (int i = 0; i < drawLists.size(); i++) {
-    //         if (
-    //             drawLists[i].x1 < -width || drawLists[i].y1 < -height || drawLists[i].x1 > width * 2 || drawLists[i].y1 > height * 2 ||
-    //             drawLists[i].x2 < -width || drawLists[i].y2 < -height || drawLists[i].x2 > width * 2 || drawLists[i].y2 > height * 2 ||
-    //             drawLists[i].x3 < -width || drawLists[i].y3 < -height || drawLists[i].x3 > width * 2 || drawLists[i].y3 > height * 2 ||
-    //             drawLists[i].x4 < -width || drawLists[i].y4 < -height || drawLists[i].x4 > width * 2 || drawLists[i].y4 > height * 2
-    //         ) continue;
-    //         // cout << spriteName[drawLists[i].spriteId] << " " 
-    //         //      << drawLists[i].x1 << ", " << drawLists[i].y1 << " "
-    //         //      << drawLists[i].x2 << ", " << drawLists[i].y2 << " "
-    //         //      << drawLists[i].x3 << ", " << drawLists[i].y3 << " "
-    //         //      << drawLists[i].x4 << ", " << drawLists[i].y4 << " "
-    //         //      << drawLists[i].a << endl;
-    //         // continue;
-    //         Json::Value data = skinData["sprites"][realSpriteId[spriteName[drawLists[i].spriteId]]];
-    //         image sprite = image(data["w"].asInt(), data["h"].asInt());
-    //         for (int x = data["x"].asInt(), x0 = 0; x < data["x"].asInt() + data["w"].asInt(); x++, x0++) {
-    //             for (int y = data["y"].asInt(), y0 = 0; y < data["y"].asInt() + data["h"].asInt(); y++, y0++) {
-    //                 sprite.data[y0][x0 * 4] = skinTexture.data[y][x * 4];
-    //                 sprite.data[y0][x0 * 4 + 1] = skinTexture.data[y][x * 4 + 1];
-    //                 sprite.data[y0][x0 * 4 + 2] = skinTexture.data[y][x * 4 + 2];
-    //                 sprite.data[y0][x0 * 4 + 3] = skinTexture.data[y][x * 4 + 3] * drawLists[i].a;
-    //                 // if (drawLists[i].a == 0.8) cout << int(skinTexture.data[y][x * 4 + 3]) << " " << skinTexture.data[y][x * 4 + 3] * drawLists[i].a << endl;
-    //             }
-    //         }
-    //         drawLists[i].x1 += width; drawLists[i].y1 += height;
-    //         drawLists[i].x2 += width; drawLists[i].y2 += height;
-    //         drawLists[i].x3 += width; drawLists[i].y3 += height;
-    //         drawLists[i].x4 += width; drawLists[i].y4 += height;
-    //         writeImage(".tmp/" + to_string(i) + ".png", sprite);
-    //         int w = data["w"].asInt(), h = data["h"].asInt();
-    //         command += "\\( \"./.tmp/" + to_string(i) + ".png\" -filter point -virtual-pixel none +distort perspective \"";
-    //         command += "0," + to_string(h == 1 ? h : h - 1) + " " + to_string(drawLists[i].x1) + "," + to_string(height - drawLists[i].y1) + " ";
-    //         command += "0,0 " + to_string(drawLists[i].x2) + "," + to_string(height - drawLists[i].y2) + " ";
-    //         command += to_string(w == 1 ? w : w - 1) + ",0" + " " + to_string(drawLists[i].x3) + "," + to_string(height - drawLists[i].y3) + " ";
-    //         command += to_string(w == 1 ? w : w - 1) + "," + to_string(h == 1 ? h : h - 1) + " " + to_string(drawLists[i].x4) + "," + to_string(height - drawLists[i].y4);
-    //         command += "\" \\) ";
-    //     }
-    //     command += "-background none -layers merge \"" + savePath + "\"";
-    //     system(command.c_str());
-    //     // string command = "convert bag.png \( G.png -virtual-pixel none +distort perspective "0,0 75,280  116,0 155,311  116,119 141,367  0,119 64,329" \) -layers flatten +repage result.png"
-    // }
-    else if (c[0] == "breakpoint") {
-        
+    else if (c[0] == "b" || c[0] == "breakpoint") {
+        if (c[1] == "code") {
+            if (c.size() < 4 || c[2] != "add" && c[2] != "del") {
+                cout << "Usage: breakpoint code [add/del] [codeId]" << endl;
+                return;
+            }
+            if (c[2] == "add") breakpoints.insert(stoi(c[3]));
+            else if (c[2] == "del") breakpoints.erase(stoi(c[3]));
+        } else if (c[1] == "memory") {
+            if (c.size() < 5 || c[2] != "add" && c[2] != "del") {
+                cout << "Usage: breakpoint memory [add/del] [blockId] [offset]" << endl;
+                return;
+            }
+            if (c[2] == "add") hooks.insert({ stoi(c[3]), stoi(c[4]) });
+            else if (c[2] == "del") hooks.erase({ stoi(c[3]), stoi(c[4]) });
+        } else if (c[1] == "function") {
+            if (c.size() < 4 || c[2] != "add" && c[2] != "del") {
+                cout << "Usage: breakpoint function [add/del] [func]" << endl;
+                return;
+            }
+            if (c[2] == "add") bkfuncs.insert(c[3]);
+            else if (c[2] == "del") bkfuncs.erase(c[3]);
+        } else {
+            cout << "Usage: breakpoint code [add/del] [codeId]" << endl;
+            cout << "Usage: breakpoint memory [add/del] [blockId] [offset]" << endl;
+            cout << "Usage: breakpoint function [add/del] [func]" << endl;
+        }
     }
     else if (c[0] == "skip") {
         if (c.size() < 2) {

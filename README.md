@@ -8,7 +8,7 @@
 >
 > **Check pass on engines written by Sonolus.h.**
 >
-> <span style="color: red">**Check failed on engines written by Sonolus.py.**</span>
+> <span style="color: red; font-weight: 700">Check failed on engines written by Sonolus.py.</span>
 
 > [!IMPORTANT]
 >
@@ -60,9 +60,10 @@ Usage:
 Usage: ./main [--help] [--version]
               --mode <play|watch|tutorial>
               [[--config config.json]|[--input-directory data]]
-              [--key-mapping key.json]
+              [--key-mapping key.json] [--breakpoints breakpoints.json]
               [--width 1920] [--height 1080]
-              [--engine-data EngineData] [--engine-configuration engine.json]
+              [--engine-data EngineData] [--engine-rom EngineRom]
+              [--engine-configuration engine.json]
               [--level-data LevelData]
               [--skin-data SkinData] [--skin-texture SkinTexture]
               [--particle-data ParticleData]
@@ -78,9 +79,11 @@ Optional arguments:
   -c, --config config.json            specify the configuration file. 
   -i, --input-directory data          specify the working directory. 
   -k, --key-mapping key.json          specify the key mapping file. 
+  -b, --breakpoints breakpoints.json  specify the breakpoints file. 
   --width                             specify the width of the window [nargs=0..1] [default: 1920]
   --height                            specify the height of the window [nargs=0..1] [default: 1080]
   --engine-data EngineData            specify the engine data file. 
+  --engine-rom EngineRom              specify the engine rom file. 
   --engine-configuration engine.json  specify the engine configuration file. 
   --level-data LevelData              specify the level data file. 
   --skin-data SkinData                specify the skin data file. 
@@ -104,6 +107,7 @@ config.json(Take phigros engine as an example):
         "play": "data/Phigros/EnginePlayData",
         "watch": "data/Phigros/EngineWatchData",
         "tutorial": "data/Phigros/EngineTutorialData",
+        "rom": "",
         "config": "data/Phigros/config.json"    // Generated from config-app
     },
     "level": {
@@ -145,6 +149,22 @@ key.json(The value of key should be the macro value in <https://www.glfw.org/doc
         "y": -0.8
     }
 ]
+```
+
+breakpoints.json:
+
+```json
+{
+    "codes": [
+        0               // Break at the code id = 0
+    ],
+    "memories": [
+        [ 10000, 0 ]    // Break when the value in block 10000 with offset 0 was set
+    ],
+    "functions": [
+        "Set"           // Break when `Set` function was called
+    ]
+}
 ```
 
 Interactive command line:

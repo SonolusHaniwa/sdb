@@ -61,6 +61,9 @@ vector<double> spawnOrder;
 vector<int> spawnQueue;
 vector<double> spawnTime, despawnTime;
 bool needSkip = false; double skipTime;
+set<int> breakpoints;
+set<string> bkfuncs;
+set<pair<int, int> > hooks = {};
 
 // 全局信息
 GLFWwindow* window;
@@ -113,6 +116,12 @@ int main(int argc, char** argv) {
                 key_config[i]["y"].asDouble()
             };
         }
+    }
+    if (breakpoint_path != "") {
+        Json::Value bks = json_decode(readFile(breakpoint_path));
+        for (int i = 0; i < bks["codes"].size(); i++) breakpoints.insert(bks["codes"][i].asInt());
+        for (int i = 0; i < bks["memories"].size(); i++) hooks.insert({ bks["memories"][i][0].asInt(), bks["memories"][i][1].asInt() });
+        for (int i = 0; i < bks["functions"].size(); i++) bkfuncs.insert(bks["functions"][i].asString());
     }
 
     Json::Value engine_options = json_decode(readFile(engine_configuration_path));
