@@ -82,14 +82,16 @@ void commandLine() {
     }
     else if (c[0] == "showCode") {
         if (c.size() < 2) {
-            cout << header("showCode", 0) << " " << color("codeId", 0) << " " << color("deep = 2", 1) << ":" << endl;
-            cout << "    Show the code tree with " << color("codeId", 0) << " as root and limit the max deep of the tree is " << color("deep = 2", 1) << "." << endl;
+            cout << header("showCode", 0) << " " << color("codeId", 0) << " " << color("deep = 2", 1) << " " << color("paramOff = 0", 2) << " " << color("paramLim = 16", 3) << ":" << endl;
+            cout << "    Show the code tree with " << color("codeId", 0) << " as root and limit the max deep of the tree is " << color("deep = 2", 1) << " and only show the param in " << color("paramOff = 0", 2) << " ~ " << color("paramLim = 16", 3) << "." << endl;
             return;
         }
         int codeId = atoi(c[1].c_str());
         int deep = c.size() >= 3 ? atoi(c[2].c_str()) : 2;
+        int paramOff = c.size() >= 4 ? atoi(c[3].c_str()) : 0;
+        int paramLim = c.size() >= 5 ? atoi(c[4].c_str()) : 16;
         if (codeId >= engineData["nodes"].size()) cout << "" << endl;
-        else cout << toString(codeId, 0, deep) << endl;
+        else cout << toString(codeId, 0, deep, paramOff, paramLim) << endl;
     }
     else if (c[0] == "get") {
         if (c.size() < 3) {
@@ -209,8 +211,8 @@ void commandLine() {
         cout << "    Show active entities." << endl;
         cout << header("showQueue", 0) << ":" << endl;
         cout << "    Show current entity spawn queue." << endl;
-        cout << header("showCode", 0) << " " << color("codeId", 0) << " " << color("deep = 2", 1) << ":" << endl;
-        cout << "    Show the code tree with " << color("codeId", 0) << " as root and limit the max deep of the tree is " << color("deep = 2", 1) << "." << endl;
+        cout << header("showCode", 0) << " " << color("codeId", 0) << " " << color("deep = 2", 1) << " " << color("paramOff = 0", 2) << " " << color("paramLim = 16", 3) << ":" << endl;
+        cout << "    Show the code tree with " << color("codeId", 0) << " as root and limit the max deep of the tree is " << color("deep = 2", 1) << " and only show the param in " << color("paramOff = 0", 2) << " ~ " << color("paramLim = 16", 3) << "." << endl;
         cout << header("get", 0) << " " << color("blockId", 0) << " " << color("offset", 1) << ":" << endl;
         cout << "    Get the value in block " << color("blockId", 0) << " with " << color("offset", 1) << "." << endl;
         cout << header("set", 0) << " " << color("blockId", 0) << " " << color("offset", 1) << " " << color("value", 2) << ":" << endl;

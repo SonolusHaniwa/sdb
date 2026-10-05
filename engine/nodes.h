@@ -47,7 +47,7 @@ void initNodes(Json::Value nodes) {
     }
 }
 
-string toString(int nodeId, int tabLength = 0, int deep = 2) {
+string toString(int nodeId, int tabLength = 0, int deep = 2, int paramOff = 0, int paramLim = 16) {
     stringstream ss; string pre = "";
     for (int i = 0; i < tabLength; i++) pre += "  ";
     DataNode node = nodes[nodeId];
@@ -56,19 +56,29 @@ string toString(int nodeId, int tabLength = 0, int deep = 2) {
     for (int i = 0; i < node.param.size(); i++) allValue &= nodes[node.param[i]].isValue;
     if (allValue) {
         ss << pre << node.name << "(";
-        for (int i = 0; i < node.param.size(); i++) 
+        if (paramOff) ss << "...and " << min(paramOff, int(node.param.size())) << " params" << (paramOff < node.param.size() ? ", " : "");
+        for (int i = paramOff; i < min(int(node.param.size()), paramOff + paramLim); i++) 
             ss << nodes[node.param[i]].value << (i != node.param.size() - 1 ? ", " : "");
+        if (node.param.size() > paramOff + paramLim) ss << "...and " << node.param.size() - (paramOff + paramLim) << " params";
         ss << ")";
     } else {
         ss << pre << node.name << "(";
         if (tabLength < deep - 1) ss << endl;
-        for (int i = 0; i < node.param.size(); i++) {
+        if (paramOff) {
+            if (tabLength < deep - 1) ss << pre << "  ...and " << min(paramOff, int(node.param.size())) << " params" << (paramOff < node.param.size() ? "," : "") << endl;
+            else ss << "...and " << min(paramOff, int(node.param.size())) << " params" << (paramOff < node.param.size() ? ", " : "");
+        }
+        for (int i = paramOff; i < min(int(node.param.size()), paramOff + paramLim); i++) {
             if (tabLength >= deep - 1) {
                 if (nodes[node.param[i]].isValue) ss << nodes[node.param[i]].value;
                 else ss << "...";
                 ss << (i != node.param.size() - 1 ? ", " : "");
             } else ss << toString(node.param[i], tabLength + 1, deep) << (i != node.param.size() - 1 ? "," : "") << " \033[32m# codeId = " << node.param[i] << "\033[0m, \033[33mparamId = " << i << "\033[0m" << endl;
-        } 
+        }
+        if (node.param.size() > paramOff + paramLim) {
+            if (tabLength < deep - 1) ss << pre << "  ...and " << node.param.size() - (paramOff + paramLim) << " params" << endl;
+            else ss << "...and " << node.param.size() - (paramOff + paramLim) << " params";
+        }
         if (tabLength < deep - 1) ss << pre;
         ss << ")";
     }
