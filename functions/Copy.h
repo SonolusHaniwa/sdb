@@ -11,7 +11,7 @@ double Copy(double srcId, double srcIndex, double dstId, double dstIndex, double
 	if (overflowMemory(srcId, srcEndIndex - 1)) return throwError("Source end index %d is overflow for block %d", srcEndIndex - 1, int(srcId)), 0;
 	if (overflowMemory(dstId, dstStartIndex)) return throwError("Destination start index %d is overflow for block %d", dstStartIndex, int(dstId)), 0;
 	if (overflowMemory(dstId, dstEndIndex - 1)) return throwError("Destination end index %d is overflow for block %d", dstEndIndex - 1, int(dstId)), 0;
-	memmove(generalMemory[int(dstId)] + dstStartIndex, generalMemory[int(srcId)] + srcStartIndex, int(count));
+	memmove(generalMemory[int(dstId)] + dstStartIndex, generalMemory[int(srcId)] + srcStartIndex, int(count) * sizeof(double));
 	return 0;
 }
 

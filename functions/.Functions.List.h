@@ -456,23 +456,23 @@ double RunCode(int nodeId) {
 	if (node.isValue) return node.value;
 	int hash = node.hash;
 	for (int i = 0; i < node.param.size(); i++) node.values[i] = node.param[i];
-	if (hash == 354231728) { double res = And(node.values); afterRunCode(nodeId); return res; }
-	if (hash == 565864982) { node.values.resize(1, 0); double res = Block(node.values[0]); afterRunCode(nodeId); return res; }
-	if (hash == 76217789) { node.values.resize(2, 0); double res = Break(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
-	if (hash == 960814006) { node.values.resize(2, 0); double res = DoWhile(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
-	if (hash == 4039265) { node.values.resize(3, 0); double res = If(node.values[0], node.values[1], node.values[2]); afterRunCode(nodeId); return res; }
-	if (hash == 525528671) { double res = JumpLoop(node.values); afterRunCode(nodeId); return res; }
-	if (hash == 4371263) { double res = Or(node.values); afterRunCode(nodeId); return res; }
-	if (hash == 699327620) { double res = Switch(node.values[0], [](vector<double> v){ vector<Switch_Group_test_consequent> res; for (int i = 0; i < v.size(); i += 2) res.push_back({ v[i], v[i + 1] }); return res; }(vector<double>(node.values.begin() + 1, node.values.end()))); afterRunCode(nodeId); return res; }
-	if (hash == 303691296) { double res = SwitchInteger(node.values[0], vector<double>(node.values.begin() + 1, node.values.end())); afterRunCode(nodeId); return res; }
-	if (hash == 271289553) { double res = SwitchIntegerWithDefault(node.values[0], vector<double>(node.values.begin() + 1, node.values.end() - 1), node.values.back()); afterRunCode(nodeId); return res; }
-	if (hash == 188807862) { double res = SwitchWithDefault(node.values[0], [](vector<double> v){ vector<SwitchWithDefault_Group_test_consequent> res; for (int i = 0; i < v.size(); i += 2) res.push_back({ v[i], v[i + 1] }); return res; }(vector<double>(node.values.begin() + 1, node.values.end() - 1)), node.values.back()); afterRunCode(nodeId); return res; }
-	if (hash == 777427314) { node.values.resize(2, 0); double res = While(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
+	if (hash == 354231728) { beforeRunMainCode(nodeId); double res = And(node.values); afterRunCode(nodeId); return res; }
+	if (hash == 565864982) { beforeRunMainCode(nodeId); node.values.resize(1, 0); double res = Block(node.values[0]); afterRunCode(nodeId); return res; }
+	if (hash == 76217789) { beforeRunMainCode(nodeId); node.values.resize(2, 0); double res = Break(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
+	if (hash == 960814006) { beforeRunMainCode(nodeId); node.values.resize(2, 0); double res = DoWhile(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
+	if (hash == 4039265) { beforeRunMainCode(nodeId); node.values.resize(3, 0); double res = If(node.values[0], node.values[1], node.values[2]); afterRunCode(nodeId); return res; }
+	if (hash == 525528671) { beforeRunMainCode(nodeId); double res = JumpLoop(node.values); afterRunCode(nodeId); return res; }
+	if (hash == 4371263) { beforeRunMainCode(nodeId); double res = Or(node.values); afterRunCode(nodeId); return res; }
+	if (hash == 699327620) { beforeRunMainCode(nodeId); double res = Switch(node.values[0], [](vector<double> v){ vector<Switch_Group_test_consequent> res; for (int i = 0; i < v.size(); i += 2) res.push_back({ v[i], v[i + 1] }); return res; }(vector<double>(node.values.begin() + 1, node.values.end()))); afterRunCode(nodeId); return res; }
+	if (hash == 303691296) { beforeRunMainCode(nodeId); double res = SwitchInteger(node.values[0], vector<double>(node.values.begin() + 1, node.values.end())); afterRunCode(nodeId); return res; }
+	if (hash == 271289553) { beforeRunMainCode(nodeId); double res = SwitchIntegerWithDefault(node.values[0], vector<double>(node.values.begin() + 1, node.values.end() - 1), node.values.back()); afterRunCode(nodeId); return res; }
+	if (hash == 188807862) { beforeRunMainCode(nodeId); double res = SwitchWithDefault(node.values[0], [](vector<double> v){ vector<SwitchWithDefault_Group_test_consequent> res; for (int i = 0; i < v.size(); i += 2) res.push_back({ v[i], v[i + 1] }); return res; }(vector<double>(node.values.begin() + 1, node.values.end() - 1)), node.values.back()); afterRunCode(nodeId); return res; }
+	if (hash == 777427314) { beforeRunMainCode(nodeId); node.values.resize(2, 0); double res = While(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
 	node.currValueCount = 0;
 	for (int i = 0; i < node.param.size(); i++) {
 		node.values[i] = RunCode(node.param[i]);
 		node.currValueCount++;
-		if (breakCount) return 0;
+		if (breakCount) return afterRunCode(nodeId), 0;
 	}
 	beforeRunMainCode(nodeId);
 	if (hash == 353567771) { node.values.resize(1, 0); double res = Abs(node.values[0]); afterRunCode(nodeId); return res; }

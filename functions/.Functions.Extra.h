@@ -82,11 +82,6 @@ void beforeRunCode(int nodeId) {
         cout << "Breakpoint on code " << nodeId << " was triggered.";
         forceStop = true;
     }
-    if (bkfuncs.count(nodes[nodeId].name)) {
-        cout << endl;
-        cout << "Breakpoint on func \"" << nodes[nodeId].name << "\" was triggered.";
-        forceStop = true;
-    }
     // if (nodes[nodeId].name == "Set") {
     //     cout << int(nodes[nodeId].values[1]) << " " << int(nodes[nodeId].values[2]) << " " << hooks.count({ int(nodes[nodeId].values[1]), int(nodes[nodeId].values[2]) }) << endl;
     // }
@@ -94,7 +89,7 @@ void beforeRunCode(int nodeId) {
 	if (forceStop) {
 		cout << endl;
 		cout << "Stucked in entity #" << entityId << "(archetype = \"" << archetypeName << "\", callback = \"" << callbackName << "\")" << endl;
-		for (int i = callStacks.size() - 1, k = 0; i >= 0, k < 16; i--, k++) {
+		for (int i = callStacks.size() - 1, k = 0; i >= 0 && k < 16; i--, k++) {
 			DataNode node = nodes[callStacks[i]];
 			string callName = node.callName;
 			for (int j = 0; j < node.currValueCount; j++) callName = callName.replace(callName.find("?"), 1, to_string(node.values[j]));
@@ -109,13 +104,18 @@ void beforeRunCode(int nodeId) {
 void beforeRunMainCode(int nodeId) {
     if (nodes[nodeId].name == "Set" && hooks.count({ int(nodes[nodeId].values[0]), int(nodes[nodeId].values[1]) })) {
         cout << endl;
-        cout << "Hook on blockId = " << int(nodes[nodeId].values[0]) << ", index = " << int(nodes[nodeId].values[1]) << " was triggered.";
+        cout << "Breakpoint on blockId = " << int(nodes[nodeId].values[0]) << ", offset = " << int(nodes[nodeId].values[1]) << " was triggered.";
+        forceStop = true;
+    }
+    if (bkfuncs.count(nodes[nodeId].name)) {
+        cout << endl;
+        cout << "Breakpoint on func \"" << nodes[nodeId].name << "\" was triggered.";
         forceStop = true;
     }
 	if (forceStop) {
 		cout << endl;
 		cout << "Stucked in entity #" << entityId << "(archetype = \"" << archetypeName << "\", callback = \"" << callbackName << "\")" << endl;
-		for (int i = callStacks.size() - 1, k = 0; i >= 0, k < 16; i--, k++) {
+		for (int i = callStacks.size() - 1, k = 0; i >= 0 && k < 16; i--, k++) {
 			DataNode node = nodes[callStacks[i]];
 			string callName = node.callName;
 			for (int j = 0; j < node.currValueCount; j++) callName = callName.replace(callName.find("?"), 1, to_string(node.values[j]));

@@ -13,7 +13,7 @@ void setMemory(int id, int size) {
     assert(memorySize[id] == 0);
     memorySize[id] = size;
     generalMemory[id] = new double[size];
-    memset(generalMemory[id], 0, size);
+    memset(generalMemory[id], 0, size * sizeof(double));
     isLinked[id] = 0;
 }
 
