@@ -170,7 +170,40 @@ breakpoints.json:
 Interactive command line:
 
 ```
-Work in progress...
+List of classes of commands:
+
+c, continue:
+    Continue to run the engine.
+q, quit, exit:
+    Quit Sonolus Debugger.
+show [blockId]:
+    Check the values in block [blockId].
+showActive:
+    Show active entities.
+showQueue:
+    Show current entity spawn queue.
+showCode [codeId] [deep = 2]:
+    Show the code tree with [codeId] as root and limit the max deep of the tree is [deep = 2].
+get [blockId] [offset]:
+    Get the value in block [blockId] with [offset].
+set [blockId] [offset] [value]:
+    Set the value in block [blockId] with [offset] to [value].
+info:
+    Get the information of the current entity.
+switch [entityId]:
+    Switch to entity [entityId] to check data in this entity.
+b, breakpoint code [add/del] [codeId]:
+    [add/del] a breakpoint to break the debugger at the code [codeId].
+b, breakpoint memory [add/del] [blockId] [offset]:
+    [add/del] a breakpoint to break the debugger when the value in block [blockId] with [offset] was set.
+b, breakpoint function [add/del] [func]:
+    [add/del] a breakpoint to break the debugger when `[func]` function was called.
+b, breakpoint list:
+    List current breakpoints.
+skip [time]:
+    Skip to [time].
+h, help:
+    Show this help information
 ```
 
 GUI:
