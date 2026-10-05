@@ -54,7 +54,13 @@ namespace tutorial {
             setCallbackName("update");
             RunCode(engineData["update"].asInt());
             
-            sort(drawLists.begin(), drawLists.end(), [](auto a, auto b){ return a.z < b.z; });
+            sort(drawLists.begin(), drawLists.end(), [](auto a, auto b){ 
+                return a.z1 == b.z1 ? (
+                    a.z2 == b.z2 ? (
+                        a.z3 == b.z3 ? a.z4 < b.z4 : a.z3 < b.z3
+                    ) : a.z2 < b.z2
+                ) : a.z1 < b.z1;
+            });
             renderDrawLists = drawLists;
             display(currTime - stTime);
             glfwSwapBuffers(window);

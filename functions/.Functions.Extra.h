@@ -41,7 +41,7 @@ class DrawElement {
     double x2, y2;
     double x3, y3;
     double x4, y4;
-    double z, a;
+    double z1, z2, z3, z4, a;
 };
 int RuntimeSkinTransformId;
 vector<DrawElement> drawLists;

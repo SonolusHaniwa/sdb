@@ -22,7 +22,7 @@ double Draw(double id, Draw_Group_x_y x_y0, Draw_Group_x_y x_y1, Draw_Group_x_y 
 		x2, y2,
 		x3, y3,
 		x4, y4,
-		z1,
+		z1, z2, z3, z4,
 		a
 	}));
 	return 0;
