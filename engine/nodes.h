@@ -67,7 +67,7 @@ string toString(int nodeId, int tabLength = 0, int deep = 2) {
                 if (nodes[node.param[i]].isValue) ss << nodes[node.param[i]].value;
                 else ss << "...";
                 ss << (i != node.param.size() - 1 ? ", " : "");
-            } else ss << toString(node.param[i], tabLength + 1, deep) << (i != node.param.size() - 1 ? ", " : "") << endl;
+            } else ss << toString(node.param[i], tabLength + 1, deep) << (i != node.param.size() - 1 ? "," : "") << " \033[32m# codeId = " << node.param[i] << "\033[0m, \033[33mparamId = " << i << "\033[0m" << endl;
         } 
         if (tabLength < deep - 1) ss << pre;
         ss << ")";

@@ -1,7 +1,7 @@
 namespace play {
     const int targetFPS = 120;
     map<string, int> aids;
-    map<string, map<string, int> > importData;
+    map<string, map<string, pair<int, int> > > importData;
     vector<int> entityAid;
     vector<vector<int> > callbackOrder;
     vector<int> preprocessOrder, spawnOrderOrder;
@@ -44,8 +44,9 @@ namespace play {
             importData[name] = {};
             for (int j = 0; j < engineData["archetypes"][i]["imports"].size(); j++) {
                 int index = engineData["archetypes"][i]["imports"][j]["index"].asInt();
+                double def = engineData["archetypes"][i]["imports"][j]["def"].asDouble();
                 string var = engineData["archetypes"][i]["imports"][j]["name"].asString();
-                importData[name][var] = index;
+                importData[name][var] = { index, def };
             }
         }
         callbackOrder.resize(engineData["archetypes"].size());
@@ -126,15 +127,23 @@ namespace play {
             for (int j = 0; j < 64; j++) directSet(4000, j, 0);
             for (int j = 0; j < 32; j++) directSet(4001, j, 0);
             for (int j = 0; j < 32; j++) directSet(4002, j, 0);
-            if (aid != -1) for (int j = 0; j < levelData["entities"][i]["data"].size(); j++) {
-                string name = levelData["entities"][i]["data"][j]["name"].asString();
-                double value = levelData["entities"][i]["data"][j].isMember("ref")
-                    ? refs[levelData["entities"][i]["data"][j]["ref"].asString()]
-                    : levelData["entities"][i]["data"][j]["value"].asDouble();
-                if (importData[aname].count(name) == 0) continue;
-                int index = importData[aname][name];
-                if (overflowMemory(4001, index)) continue;
-                directSet(4001, index, value);
+            if (aid != -1) {
+                for (const auto &v : importData[aname]) {
+                    int index = v.second.first;
+                    double def = v.second.second;
+                    if (overflowMemory(4001, index)) continue;
+                    directSet(4001, index, def);
+                }
+                for (int j = 0; j < levelData["entities"][i]["data"].size(); j++) {
+                    string name = levelData["entities"][i]["data"][j]["name"].asString();
+                    if (importData[aname].count(name) == 0) continue;
+                    double value = levelData["entities"][i]["data"][j].isMember("ref")
+                        ? refs[levelData["entities"][i]["data"][j]["ref"].asString()]
+                        : levelData["entities"][i]["data"][j]["value"].asDouble();
+                    int index = importData[aname][name].first;
+                    if (overflowMemory(4001, index)) continue;
+                    directSet(4001, index, value);
+                }
             }
             directSet(4003, 0, i);
             directSet(4003, 1, aid);
