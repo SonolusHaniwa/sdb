@@ -15,7 +15,7 @@ int callbackNameId = 0;
 
 void throwError(string text) {
     cerr << "\e[31m" << text << "\e[0m" << endl;
-    cerr << "    \e[31mError occurred in entity id = " << currEntityId << ", archtype = \"" << levelData["entities"][currEntityId]["archetype"].asString() << "\", callback = \"" << callbackName << "\".\e[0m" << endl;
+    cerr << "    \e[31mError occurred in entity id = " << currEntityId << ", archetype = \"" << levelData["entities"][currEntityId]["archetype"].asString() << "\", callback = \"" << callbackName << "\".\e[0m" << endl;
 }
 
 void throwError(const char* fmt, ...) {

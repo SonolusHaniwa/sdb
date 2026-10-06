@@ -33,6 +33,8 @@ namespace play {
         for (int i = 0; i < 8; i++) newMemory[i] = new double[memorySize[4100 + i] / entityCount];
         newSpawnedMemory.push_back(newMemory);
         entityAid.push_back(aid);
+        string aname = "Spawned: " + engineData["archetypes"][aid]["name"].asString();
+        levelData["entities"].append([aname](){ Json::Value obj; obj["archetype"] = aname; return obj; }());
         newSpawnList.push_back({ entityAid.size() - 1, memory });
         // cout << "New Spawn: Entity id = " << entityAid.size() - 1 << ", archetype = \"Spawned: " << engineData["archetypes"][aid]["name"].asString() << "\"" << endl;
     };

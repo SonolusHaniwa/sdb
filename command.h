@@ -62,8 +62,7 @@ void commandLine() {
         int id = 0;
         for (auto v : activeEntities) {
             string name = "Spawned Archetype";
-            if (v < levelData["entities"].size())
-                name = levelData["entities"][v]["archetype"].asString();
+            name = levelData["entities"][v]["archetype"].asString();
             if (c.size() >= 2 && name.find(c[1]) == string::npos) continue;
             cout << "#" << id++ << "\tEntity id = " << v << ", archetype = \"" << name << "\"." << endl;
         }
