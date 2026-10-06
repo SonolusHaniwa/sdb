@@ -11,6 +11,7 @@ class DataNode {
     vector<double> values = {};
     int currValueCount = 0;
     int hash = 0;
+    int currParam = 0;
 };
 
 int calcHash(string s) {

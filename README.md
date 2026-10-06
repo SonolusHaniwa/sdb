@@ -6,9 +6,7 @@
 
 > [!NOTE]
 >
-> **Check pass on engines written by Sonolus.h.**
->
-> <span style="color: red; font-weight: 700">Check failed on engines written by Sonolus.py.</span>
+> **Check passed on engine [`sirius`](https://github.com/SonolusHaniwa/sonolus-sirius-engine), [`phigros`](https://github.com/SonolusHaniwa/sonolus-phigros-engine), [`next-sekai`](https://github.com/Next-SEKAI/sonolus-next-sekai-engine), [`next-rush`](https://github.com/UntitledCharts/sonolus-next-rush-engine), [`snake`](https://github.com/LBO44/Sonolus-Snake-Engine)**
 
 > [!IMPORTANT]
 >
@@ -182,8 +180,8 @@ showActive:
     Show active entities.
 showQueue:
     Show current entity spawn queue.
-showCode [codeId] [deep = 2]:
-    Show the code tree with [codeId] as root and limit the max deep of the tree is [deep = 2].
+showCode [codeId] [deep = 2] [paramOff = 0] [paramLim = 16]:
+    Show the code tree with [codeId] as root and limit the max deep of the tree is [deep = 2] and only show the param in [paramOff = 0] ~ [paramLim = 16].
 get [blockId] [offset]:
     Get the value in block [blockId] with [offset].
 set [blockId] [offset] [value]:

@@ -75,6 +75,12 @@ int TemporaryMemorySize = 4096;
 int cnt = 0;
 map<string, int> ExecuteTimes;
 
+void updateCurrParam(int paramId) {
+    if (callStacks.size() == 0) return;
+    int nodeId = callStacks.back();
+    nodes[nodeId].currParam = paramId;
+}
+
 void beforeRunCode(int nodeId) {
     if (!nodes[nodeId].isValue) callStacks.push_back(nodeId);
     if (breakpoints.count(nodeId)) {
@@ -93,7 +99,7 @@ void beforeRunCode(int nodeId) {
 			DataNode node = nodes[callStacks[i]];
 			string callName = node.callName;
 			for (int j = 0; j < node.currValueCount; j++) callName = callName.replace(callName.find("?"), 1, to_string(node.values[j]));
-			cout << "#" << (callStacks.size() - 1 - i) << "\t" << callName << endl;
+			cout << "#" << (callStacks.size() - 1 - i) << "\t" << callName << (i != callStacks.size() - 1 ? " \033[32m# paramId = " + to_string(node.currParam) + "\033[0m" : "") << endl;
 		}
         if (callStacks.size() > 16) cout << "..." << endl;
     	currEntityId = entityId;
@@ -122,7 +128,7 @@ void beforeRunMainCode(int nodeId) {
 			DataNode node = nodes[callStacks[i]];
 			string callName = node.callName;
 			for (int j = 0; j < node.currValueCount; j++) callName = callName.replace(callName.find("?"), 1, to_string(node.values[j]));
-			cout << "#" << (callStacks.size() - 1 - i) << "\t" << callName << endl;
+			cout << "#" << (callStacks.size() - 1 - i) << "\t" << callName << (i != callStacks.size() - 1 ? " \033[32m# paramId = " + to_string(node.currParam) + "\033[0m" : "") << endl;
 		}
         if (callStacks.size() > 16) cout << "..." << endl;
     	currEntityId = entityId;

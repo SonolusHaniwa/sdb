@@ -470,6 +470,7 @@ double RunCode(int nodeId) {
 	if (hash == 777427314) { beforeRunMainCode(nodeId); node.values.resize(2, 0); double res = While(node.values[0], node.values[1]); afterRunCode(nodeId); return res; }
 	node.currValueCount = 0;
 	for (int i = 0; i < node.param.size(); i++) {
+		updateCurrParam(i);
 		node.values[i] = RunCode(node.param[i]);
 		node.currValueCount++;
 		if (breakCount) return afterRunCode(nodeId), 0;
