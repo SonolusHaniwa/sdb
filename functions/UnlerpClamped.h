@@ -2,7 +2,8 @@
 #define Functions_UnlerpClamped_H
 
 double UnlerpClamped(double a, double b, double x) {
-	return x < a ? 0 : x > b ? 1 : Unlerp(a, b, x);
+	double value = Unlerp(a, b, x);
+	return value < 0 ? 0 : (value > 1 ? 1 : value);
 }
 
 #endif

@@ -2,7 +2,8 @@
 #define Functions_LerpClamped_H
 
 double LerpClamped(double x, double y, double s) {
-	return s < 0 ? x : s > 1 ? y : Lerp(x, y, s);
+	double value = Lerp(x, y, s);
+	return value < 0 ? 0 : (value > 1 ? 1 : value);
 }
 
 #endif
