@@ -215,17 +215,17 @@ void opengl_onmousemove(GLFWwindow* window, double xpos, double ypos) {
 	mouseX = xpos, mouseY = ypos;
 	addGLEvent([](double time) {
 		for (int i = 0; i < 8; i++) if (mouseTouchId[i] != 0) 
-			updateTouch(mouseTouchId[i], time, (mouseX / width * 2 - 1) * aspectRadio, mouseY / height * 2 - 1);
+			updateTouch(mouseTouchId[i], time, (mouseX / width * 2 - 1) * aspectRadio, 1 - mouseY / height * 2 );
 	});
 }
 void opengl_onmousepress(GLFWwindow* window, int button, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		addGLEvent([button](double time) {
-			mouseTouchId[button] = createTouch(time, (mouseX / width * 2 - 1) * aspectRadio, mouseY / height * 2 - 1);
+			mouseTouchId[button] = createTouch(time, (mouseX / width * 2 - 1) * aspectRadio, 1 - mouseY / height * 2);
 		});
 	} else if (action == GLFW_RELEASE) {
 		addGLEvent([button](double time) {
-			removeTouch(mouseTouchId[button], time, (mouseX / width * 2 - 1) * aspectRadio, mouseY / height * 2 - 1);
+			removeTouch(mouseTouchId[button], time, (mouseX / width * 2 - 1) * aspectRadio, 1 - mouseY / height * 2);
 			mouseTouchId[button] = 0;
 		});
 	}

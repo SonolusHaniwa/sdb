@@ -139,6 +139,8 @@ class ParticleDataEffect {
             string ease;
 
             float getValue(double time, double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double r1, double r2, double r3, double r4, double r5, double r6, double r7, double r8) const {
+                string ease = this->ease;
+                if (easeFunc.count(ease) == 0) ease = "linear";
                 double e = easeFunc[ease](time);
                 double start = from.calc(x1, y1, x2, y2, x3, y3, x4, y4, r1, r2, r3, r4, r5, r6, r7, r8);
                 double end = to.calc(x1, y1, x2, y2, x3, y3, x4, y4, r1, r2, r3, r4, r5, r6, r7, r8);
