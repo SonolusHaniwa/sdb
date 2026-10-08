@@ -166,7 +166,11 @@ class ParticleDataEffect {
         else return 0;
     }
     void getColor(string str, float &r, float &g, float &b) const {
-        assert(str[0] == '#');
+        r = 0, g = 0, b = 0;
+        if (str[0] != '#') {
+            cerr << "ParticleData: Invalid color code \"" << str << "\"." << endl;
+            return;
+        }
         if (str.size() == 4) {
             r = 1.0 * getDec(str[1]) / 15;
             g = 1.0 * getDec(str[2]) / 15;
